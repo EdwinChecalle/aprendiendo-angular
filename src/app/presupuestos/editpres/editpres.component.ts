@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PresupuestosService } from 'src/app/servicios/presupuestos.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-addpres',
-  templateUrl: './addpres.component.html',
-  styleUrls: ['./addpres.component.css']
+  selector: 'app-editpres',
+  templateUrl: './editpres.component.html',
+  styleUrls: ['./editpres.component.css']
 })
-export class AddpresComponent implements OnInit {
+export class EditpresComponent implements OnInit {
 
   presupuestoForm: FormGroup;
   presupuesto: any;
@@ -15,8 +16,18 @@ export class AddpresComponent implements OnInit {
   tipo: any;
   iva: any = 0;
   total: any = 0;
+  id: string;
 
-  constructor(private pf: FormBuilder, private presupuestoService: PresupuestosService) { }
+  constructor(private pf: FormBuilder,
+    private presupuestoService: PresupuestosService,
+    private router: Router,
+    private activatedRouter: ActivatedRoute) {
+    this.activatedRouter.params.subscribe(parametros => {
+      this.id = parametros['id'];
+      this.presupuestoService.getPresupuesto(this.id)
+        .subscribe(presupuesto => this.presupuesto = presupuesto)
+    });
+  }
 
   ngOnInit() {
     this.presupuestoForm = this.pf.group({
@@ -31,12 +42,21 @@ export class AddpresComponent implements OnInit {
     this.onChanges();
   }
 
+  onChanges(): void {
+    this.presupuestoForm.valueChanges.subscribe(valor => {
+      this.base = valor.base;
+      this.tipo = valor.tipo;
+      this.presupuestoForm.value.iva = this.base * this.tipo;
+      this.presupuestoForm.value.total = this.base + (this.base * this.tipo);
+    });
+  }
+
   onSubmit() {
     this.presupuesto = this.savePresupuesto();
-    this.presupuestoService.postPresupuesto(this.presupuesto)
-      .subscribe(newpres => {
+    this.presupuestoService.putPresupuesto(this.presupuesto, this.id)
+      .subscribe(newpre => {
+        this.router.navigate(['/presupuestos'])
       })
-    this.presupuestoForm.reset();
   }
 
   savePresupuesto() {
@@ -50,13 +70,5 @@ export class AddpresComponent implements OnInit {
       total: this.presupuestoForm.get('total').value
     };
     return savePresupuesto;
-  }
-  onChanges(): void {
-    this.presupuestoForm.valueChanges.subscribe(valor => {
-      this.base = valor.base;
-      this.tipo = valor.tipo;
-      this.presupuestoForm.value.iva = this.base * this.tipo;
-      this.presupuestoForm.value.total = this.base + (this.base * this.tipo);
-    });
   }
 }
