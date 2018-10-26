@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { PresupuestosComponent } from './presupuestos/presupuestos.component';
@@ -16,8 +17,10 @@ import { AddpresComponent } from './presupuestos/addpres/addpres.component';
 const routes: Routes=[{ path: '', component: InicioComponent },
   { path: 'proveedores', component: ProveedoresComponent },
   { path: 'addprovee', component: AddproveeComponent},
+  { path: 'addpres', component: AddpresComponent},
   { path: '', component: InicioComponent},
-  { path: '**', component: InicioComponent}]
+  { path: '**', component: InicioComponent},
+  ]
 
 @NgModule({
   declarations: [
@@ -33,7 +36,8 @@ const routes: Routes=[{ path: '', component: InicioComponent },
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [ProveedoresService],
   bootstrap: [AppComponent]

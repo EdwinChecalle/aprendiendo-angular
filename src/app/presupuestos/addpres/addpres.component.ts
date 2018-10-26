@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-addpres',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddpresComponent implements OnInit {
 
-  constructor() { }
+  presupuestoForm: FormGroup;
+  presupuesto: any;
+
+  constructor(private pf: FormBuilder) { }
 
   ngOnInit() {
+    this.presupuestoForm = this.pf.group({
+      proveedor: '',
+      fecha: '',
+      concepto: '',
+      base: '',
+      tipo: '',
+      iva: '',
+      total: ''
+      });
   }
 
 }
