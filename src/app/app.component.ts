@@ -6,12 +6,16 @@ import * as firebase from 'firebase';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'Aplicacion-';
-  ngOnInit () {
+  ngOnInit() {
     firebase.initializeApp({
-    apiKey: 'AIzaSyA9is2mslut0EWxVAASh3piGmdbcA2Em-A',
-    authDomain: 'comprasapp-83618.firebaseapp.com'
+      apiKey: "AIzaSyA9is2mslut0EWxVAASh3piGmdbcA2Em-A",
+      authDomain: "proyectoangular-71409.firebaseapp.com",
+      databaseURL: "https://proyectoangular-71409.firebaseio.com",
+      projectId: "proyectoangular-71409",
+      storageBucket: "proyectoangular-71409.appspot.com",
+      messagingSenderId: "431094770034"
     });
-    }
+  }
 }
