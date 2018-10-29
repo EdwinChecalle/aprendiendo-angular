@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PresupuestosService } from 'src/app/servicios/presupuestos.service';
+import { ProveedoresService } from 'src/app/servicios/proveedores.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-addpres',
@@ -16,7 +18,23 @@ export class AddpresComponent implements OnInit {
   iva: any = 0;
   total: any = 0;
 
-  constructor(private pf: FormBuilder, private presupuestoService: PresupuestosService) { }
+  proveedores: any[] = [];
+
+  constructor(private pf: FormBuilder,
+    private activatedRouter: ActivatedRoute,
+    private presupuestoService: PresupuestosService,
+    private proveedoresService: ProveedoresService) {
+    this.proveedoresService.getProveedores()
+      .subscribe(proveedores => {
+        for (const id$ in proveedores) {
+          const p = proveedores[id$];
+          p.id$ = id$;
+          this.proveedores.push(proveedores[id$]);
+        }
+      })
+  }
+
+
 
   ngOnInit() {
     this.presupuestoForm = this.pf.group({

@@ -18,18 +18,42 @@ import { PresupuestosService } from 'src/app/servicios/presupuestos.service';
 import { EditpresComponent } from './presupuestos/editpres/editpres.component';
 import { RegistroComponent } from './autenticacion/registro/registro.component';
 import { AutenticacionService } from './servicios/autenticacion.service';
+import { InisesComponent } from './autenticacion/inises/inises.component';
+import { GuardService } from './servicios/guard.service';
+import { FacturasModule } from 'src/app/facturas/facturas.module';
+import { FacturasComponent } from 'src/app/facturas/facturas/facturas.component';
+import { EditproveeComponent } from './proveedores/editprovee/editprovee.component';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { environment } from 'src/app/config/firebase.config';
+import { UploadComponent } from 'src/app/upload/upload.component';
+import { LoadfileService } from 'src/app/servicios/loadfile.service';
 
 
-const routes: Routes=[{ path: '', component: InicioComponent },
-  { path: 'proveedores', component: ProveedoresComponent },
-  { path: 'editpres/:id', component: EditpresComponent },
-  { path: 'addprovee', component: AddproveeComponent},
-  { path: 'addpres', component: AddpresComponent},
-  { path: 'presupuestos', component: PresupuestosComponent },
-  { path: 'registro', component: RegistroComponent },
-  { path: '', component: InicioComponent},
-  { path: '**', component: InicioComponent},
-  ]
+const routes: Routes = [{ path: '', component: InicioComponent },
+{
+  path: 'proveedores', component: ProveedoresComponent, canActivate:
+    [GuardService]
+},
+{
+  path: 'editpres/:id', component: EditpresComponent, canActivate:
+    [GuardService]
+},
+{
+  path: 'addprovee', component: AddproveeComponent, canActivate:
+    [GuardService]
+},
+{ path: 'editprovee/:id', component: EditproveeComponent, canActivate: [GuardService] },
+{ path: 'addpres', component: AddpresComponent, canActivate: [GuardService] },
+{ path: 'presupuestos', component: PresupuestosComponent, canActivate: [GuardService] },
+{ path: 'facturas', component: FacturasComponent, canActivate: [GuardService] },
+{ path: 'registro', component: RegistroComponent },
+{ path: 'iniciosesion', component: InisesComponent },
+{ path: 'uploads', component: UploadComponent },
+{ path: '', component: InicioComponent },
+{ path: '**', component: InicioComponent },
+]
 
 @NgModule({
   declarations: [
@@ -42,16 +66,23 @@ const routes: Routes=[{ path: '', component: InicioComponent },
     AddproveeComponent,
     AddpresComponent,
     EditpresComponent,
-    RegistroComponent
+    RegistroComponent,
+    InisesComponent,
+    EditproveeComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
     FormsModule,
     ReactiveFormsModule,
-    HttpModule
+    HttpModule,
+    FacturasModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
   ],
-  providers: [ProveedoresService, PresupuestosService, AutenticacionService],
+  providers: [ProveedoresService, PresupuestosService, AutenticacionService, LoadfileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
