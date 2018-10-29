@@ -21,7 +21,6 @@ import { AutenticacionService } from './servicios/autenticacion.service';
 import { InisesComponent } from './autenticacion/inises/inises.component';
 import { GuardService } from './servicios/guard.service';
 import { FacturasModule } from 'src/app/facturas/facturas.module';
-import { FacturasComponent } from 'src/app/facturas/facturas/facturas.component';
 import { EditproveeComponent } from './proveedores/editprovee/editprovee.component';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -29,28 +28,21 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from 'src/app/config/firebase.config';
 import { UploadComponent } from 'src/app/upload/upload.component';
 import { LoadfileService } from 'src/app/servicios/loadfile.service';
+import { ContratosComponent } from './contratos/contratos.component';
+import { DetallesComponent } from './contratos/detalles/detalles.component';
 
 
 const routes: Routes = [{ path: '', component: InicioComponent },
-{
-  path: 'proveedores', component: ProveedoresComponent, canActivate:
-    [GuardService]
-},
-{
-  path: 'editpres/:id', component: EditpresComponent, canActivate:
-    [GuardService]
-},
-{
-  path: 'addprovee', component: AddproveeComponent, canActivate:
-    [GuardService]
-},
+{ path: 'proveedores', component: ProveedoresComponent, canActivate:[GuardService] },
+{ path: 'addprovee', component: AddproveeComponent, canActivate:[GuardService] },
 { path: 'editprovee/:id', component: EditproveeComponent, canActivate: [GuardService] },
-{ path: 'addpres', component: AddpresComponent, canActivate: [GuardService] },
 { path: 'presupuestos', component: PresupuestosComponent, canActivate: [GuardService] },
-{ path: 'facturas', component: FacturasComponent, canActivate: [GuardService] },
+{ path: 'addpres', component: AddpresComponent, canActivate: [GuardService] },
+{ path: 'editpres/:id', component: EditpresComponent, canActivate:[GuardService] },
 { path: 'registro', component: RegistroComponent },
 { path: 'iniciosesion', component: InisesComponent },
 { path: 'uploads', component: UploadComponent },
+{ path: 'contratos', component: ContratosComponent },
 { path: '', component: InicioComponent },
 { path: '**', component: InicioComponent },
 ]
@@ -58,18 +50,20 @@ const routes: Routes = [{ path: '', component: InicioComponent },
 @NgModule({
   declarations: [
     AppComponent,
-    PresupuestosComponent,
+    HeaderComponent,
+    InicioComponent,
     CopyrightComponent,
     ProveedoresComponent,
-    InicioComponent,
-    HeaderComponent,
     AddproveeComponent,
+    EditproveeComponent,
+    PresupuestosComponent,
     AddpresComponent,
     EditpresComponent,
     RegistroComponent,
     InisesComponent,
-    EditproveeComponent,
-    UploadComponent
+    UploadComponent,
+    ContratosComponent,
+    DetallesComponent
   ],
   imports: [
     BrowserModule,
